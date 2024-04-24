@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    class ListNode {
+      constructor(val, next) {
+        this.val = val
+        this.next = next
+      }
+    }
+    var MyLinkedList = function (val, next) {
+      this.size = 0
+      this.head = new ListNode(0)
+    };
+
+    /** 
+     * @param {number} index
+     * @return {number}
+     */
+    MyLinkedList.prototype.get = function (index) {
+      if (index < 0 || index >= this.size) {
+        return -1
+      }
+      let cur = this.head
+      let i = 0
+      while (i < index) {
+        i++
+        cur = cur.next
+      }
+      return cur.val
+    };
+
+    /** 
+     * @param {number} val
+     * @return {void}
+     */
+    MyLinkedList.prototype.addAtHead = function (val) {
+      let newNode = new ListNode(val)
+      newNode.next=this.head
+      this.head = newNode
+      this.size++
+    };
+
+    /** 
+     * @param {number} val
+     * @return {void}
+     */
+    MyLinkedList.prototype.addAtTail = function (val) {
+      let newNode = new ListNode(val)
+      let cur = this.head
+      while (cur && cur.next) {
+        cur = cur.next
+      }
+      cur.next = newNode
+      this.size++
+    };
+
+    /** 
+     * @param {number} index 
+     * @param {number} val
+     * @return {void}
+     */
+    MyLinkedList.prototype.addAtIndex = function (index, val) {
+      if (index < 0 || index > this.size) {
+        return
+      }
+      let newNode = new ListNode(val)
+      if (index == 0) {
+        newNode.next = this.head
+        this.head = newNode
+        this.size++
+        return
+      }
+      let cur = this.head
+      let i = 0
+      while (i < index - 1) {
+        cur = cur.next
+        i++
+      }
+      newNode.next = cur.next
+      cur.next = newNode
+      this.size++
+    };
+
+    /** 
+     * @param {number} index
+     * @return {void}
+     */
+    MyLinkedList.prototype.deleteAtIndex = function (index) {
+      if (index < 0 || index >= this.size) {
+        return
+      }
+      if (index == 0) {
+        this.head = this.head.next
+        this.size--
+        return
+      }
+      let cur = this.head
+      let i = 0
+      while (i < index - 1) {
+        cur = cur.next
+        i++
+      }
+      cur.next = cur.next.next
+      this.size--
+    };
+    let list=new MyLinkedList()
+    list.addAtHead(1)
+    list.addAtTail(3)
+    list.addAtIndex(1,2)
+    console.log(list.get(0));
+    console.log(list.get(1));
+    console.log(list.get(2));
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

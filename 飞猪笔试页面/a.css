@@ -1,0 +1,23 @@
+html {
+  font-size: 60px;
+}
+
+body {
+  background: #E3E3E3;
+}
+
+.tab-container {
+  width: 7.02rem;
+  margin-left: 0.24rem;
+  margin-bottom: 0.24rem;
+  background-color: red;
+  height:6.8rem
+}
+
+.card-container {
+  margin-left: 0.24rem;
+}
+
+.test{
+  border-radius: ;
+}

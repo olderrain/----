@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #canvas {
+      width: 800px;
+      height: 500px;
+      /* background-color: red; */
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+<script>
+  let canvas = document.getElementById('canvas')
+  let ctx = canvas.getContext('2d')
+  
+  // console.log(ctx);
+  ctx.font="italic small-caps bold 6px arial";
+  // ctx.fillStyle = '#000000';
+  // ctx.fillText('canvas 绘制文字', 100, 100);
+
+  let colorArr = ['#000000','#aaaaaa','#bbbbbb']; 
+  let numArrL = [500,500,500]; 
+  let numArrT = [20,50,70]; 
+  let speedArr = [2,2,2]; 
+
+  barrageList=['我是帅哥','我是傻逼','天才啊我是']
+  let timer = setInterval(function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    for (let j = 0; j < barrageList.length; j++) {
+      numArrL[j] -= speedArr[j];
+      ctx.fillStyle = colorArr[j]
+      ctx.fillText(barrageList[j], numArrL[j], numArrT[j]);
+      ctx.restore();
+    }
+  }, 50);
+</script>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function findLongestSubstr(str) {
+      // write code here
+      let n = str.length
+      let max = 0
+      let sum = 1
+      let s = str[0]
+      let res = []
+      let end = 0
+      for (let i = 1; i < n; i++) {
+        if (str[i].toLowerCase() == str[i - 1].toLowerCase()) {
+          sum++
+          if (sum > max) {
+            max = sum
+            end = i
+            s = str[i].toLowerCase()
+          }
+        } else {
+          sum = 1
+        }
+      }
+      for (let i = end; i >= 0; i--) {
+        if (str[i].toLowerCase() == s) {
+          res.unshift(str[i])
+        } else {
+          break
+        }
+      }
+      return res.join('')
+    }
+    function maxProfit(pricesA, pricesB) {
+      // write code here
+      let n = pricesA.length
+      let profitA1 = 0
+      let profitB1 = 0
+      let profitA2 = 0
+      let profitB2 = 0
+      let profit = 0
+      // i是卖出前一只股票的那天
+      for (let i = 1; i < n - 2; i++) {
+        profitA1 = pricesA[i] - pricesA[0]
+        profitB1 = pricesB[n - 1] - pricesB[n - 2]
+        profitA2 = pricesA[n - 1] - pricesA[n - 2]
+        profitB2 = pricesB[i] - pricesB[0]
+        for (let j = 1; j < i; j++) {
+          profitA1 = Math.max(profitA1, pricesA[i] - pricesA[j])
+          profitB2 = Math.max(profitB2, pricesB[i] - pricesB[j])
+        }
+        let maxPrice1 = 0
+        let maxPrice2 = 0
+        for (let j = n - 1; j > i + 1; j--) {
+          maxPrice1 = Math.max(maxPrice1, pricesB[j])
+          profitB1 = Math.max(profitB1, maxPrice1 - pricesB[j - 1])
+          maxPrice2 = Math.max(maxPrice2, pricesA[j])
+          profitA2 = Math.max(profitA2, maxPrice2 - pricesA[j - 1])
+        }
+        profit = Math.max(profit, profitA1 + profitB1, profitA2 + profitB2)
+      }
+      return profit
+    }
+    function TreeNode(x) {
+      this.val = x;
+      this.left = null;
+      this.right = null;
+    }
+    function levelNode(root) {
+      // write code here
+      let queue = []
+      root && queue.push(root)
+      let res = []
+      while (queue.length) {
+        let len = queue.length
+        let levelArr=[]
+        for (let i = 0; i < len; i++) {
+          let node = queue.shift()
+          levelArr.push(node.val)
+          node.left && queue.push(node.left)
+          node.right && queue.push(node.right)
+        }
+        res.push(levelArr)
+      }
+      return res
+    }
+    let root=new TreeNode(4)
+    let node21=new TreeNode(21)
+    let node19=new TreeNode(19)
+    root.left=node21
+    root.right=node19
+    let node1=new TreeNode(1)
+    let node8=new TreeNode(8)
+    node19.left=node1
+    node19.right=node8
+    console.log(levelNode(root));
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

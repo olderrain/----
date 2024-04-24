@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    async function fn1() {
+      console.log('async1 start')
+      await fn2()
+      console.log('async1 end')
+    }
+    async function fn2() {
+      console.log('async2')
+    }
+    console.log('start')
+    fn1()
+    new Promise((resolve, reject) => {
+      console.log('promise1')
+      resolve()
+    }).then(() => {
+      console.log('promise2')
+    })
+    console.log('end')
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

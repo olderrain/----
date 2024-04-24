@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    class queue {
+      constructor() {
+        this.inputStack = []
+        this.outputStack = []
+      }
+      push(val) {
+        this.inputStack.push(val)
+      }
+      shift() {
+        let n = this.inputStack.length
+        for (let i = 0; i < n; i++) {
+          this.outputStack.push(this.inputStack.pop())
+        }
+        return this.outputStack.pop()
+      }
+      top() {
+        if (!this.outputStack.length) {
+          let n = this.inputStack.length
+          for (let i = 0; i < n; i++) {
+            this.outputStack.push(this.inputStack.pop())
+          }
+        }
+        return this.outputStack[this.outputStack.length - 1]
+      }
+      size() {
+        return this.inputStack.length + this.outputStack.length
+      }
+    }
+    let q = new queue()
+    q.push(1)
+    q.push(2)
+    console.log(q.top())
+    q.push(3)
+    console.log(q.top())
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="./sdk/neplayer_v2.8.5.css" rel="stylesheet">
+  <script src="./sdk/neplayer_v2.8.5.js"></script>
+</head>
+
+<body>
+  <video id="my-video" class="video-js vjs-big-play-centered" x-webkit-airplay="allow" webkit-playsinline controls poster="poster.png" preload="auto" width="640" height="360" data-setup="{}">
+    <!-- <source src="MY_VIDEO.mp4" type="video/mp4"> -->
+</video>
+</body>
+<script>
+  const options = {
+    controls: true,
+    autoplay: true,
+    errMsg7: '拉流超时 | 直播已结束', //CND拉流超时场景下：播放器拉流超时是的UI报错内容
+    streamTimeoutTime: 30, //设置拉流超时时间，缺省30s
+    techOrder: ['html5', 'flvjs'],
+    decoderPath: '',//CDN拉流场景下，H265解码库的url
+  };
+
+  //创建播放器实例
+  const videoDomID = 'my-video' //页面上video标签的id，要求页面唯一
+  const myPlayer = neplayer(videoDomID, options, function () {
+    console.log('播放器初始化完成: ', myPlayer)
+  })
+
+  //事件监听
+
+  //监听低延迟直播事件
+  // myPlayer.onNertcEvent((data) => {
+  //   console.log('收到低延迟通知事件: ', data)
+  //   if (data.eventType === 'liveStreamEnd') {
+  //     console.log(`检测到主播停止推流`)
+  //   } else if (data.eventType === 'liveStreamReady') {
+  //     //麻烦使用者记录这个uid和cid，出现问题反馈给我们，可以大大提高排查的速度和精准度
+  //     console.log(`拉流成功: uid: ${data.uid}, cid: ${data.cid}`)
+  //   } else if (data.eventType === 'atuoPlayNotAllowed') {
+  //     console.log(`检测媒体播放失败: `, data.mediaType)
+
+  //     /*
+  //     可以页面弹筐加一个按钮
+  //     执行: 
+  //     myPlayer.resumeLiveStream()
+  //     或者执行:
+  //     myPlayer.setDataSource(data)
+  //     */
+
+  //     /* 示例代码，供参考
+  //     const userGestureUI = document.createElement("div")
+  //     userGestureUI.style.fontSize = "20px";
+  //     userGestureUI.style.position = "fixed";
+  //     userGestureUI.style.background = "yellow";
+  //     userGestureUI.style.margin = "auto";
+  //     userGestureUI.style.width = "100%";
+  //     userGestureUI.style.zIndex = "9999";
+  //     userGestureUI.style.top = "0";
+  //     userGestureUI.onclick = ()=>{
+  //       if (userGestureUI){
+  //         userGestureUI.parentNode?.removeChild(userGestureUI)
+  //       }
+  //       //执行该方法重新播放，解决浏览器的自动播放限制
+  //       myPlayer.resumeLiveStream()
+  //     }
+      
+  //     userGestureUI.style.display = "block";
+  //     userGestureUI.innerHTML = `${data.mediaType}自动播放受到浏览器限制，需手势触发。<br/>点击此处手动播放`
+  //     document.body.appendChild(userGestureUI)
+  //     */
+
+  //   } else if (data.eventType === 'reconnectioning') {
+  //     console.log(`拉流网络异常，正在重连`)
+  //   } else if (data.eventType === 'reconnected') {
+  //     console.log(`拉流网络异常，自动重连成功`)
+  //   } else if (data.eventType === 'streamTimeout') {
+  //     console.log(`拉流超时了，已经停止拉流`)
+  //   } else if (data.eventType === 'error') {
+  //     console.log(`拉流异常，错误信息: ${data.errorEvent.message}`)
+  //   }
+  // })
+
+  //设置拉流地址
+  const data = {
+    type: 'application/x-mpegURL', //拉流协议为HTTP-FLV，改值为: 'video/x-flv'；拉流协议为HTTP-HLS，改值为: 'application/x-mpegURL'；拉流协议为NERTC低延迟直播，改值为: 'nertc'
+    // src: 'nertc://xxxxxx.live.126.net/live/627d576c92124c7aa8767ea9e29a7c16',
+    src: 'http://pullcea5f94b.live.126.net/live/991bfc66ee19464388d78d013e9a4977/playlist.m3u8?playSecret=d0f408de4586e23ee57b343f5b56540c&playTime=1710162224',
+    // streamTimeoutTime: 20,//仅NERTC低延迟直播场景下，允许动态设置拉流的超时时间
+    // isLive: true
+  }
+  //该接口会执行拉流，并且渲染播放
+  myPlayer.setDataSource(data)
+
+  //CDN拉流不支持自动播放
+  //受浏览器自动播放策略限制，需要手动触发
+  // document.getElementById('play').onclick = function () {
+  //   myPlayer.setDataSource(data)
+  // }
+
+  // let timer = setInterval(() => {
+  //   var height = myPlayer.getVideoHeight();
+  //   console.log(height);
+  //   var width = myPlayer.getVideoWidth();
+  //   console.log(width);
+  // }, 1000)
+</script>
+
+</html>
